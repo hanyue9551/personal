@@ -1,6 +1,10 @@
 // 日语语言包
 export default {
-  home: {
+  menu: {
     home: "トップページ",
+    language: "言語",
+    zh: "中国語",
+    jp: "日本語",
+    aboutme: "私",
   },
 };

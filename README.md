@@ -2,6 +2,9 @@
 vue3+ts+elementUI+PHP
 PHP后续创建项目上传
 
+个人站页面 /
+后台管理 /management
+
 ## Project setup
 ```
 npm install
