@@ -1,11 +1,18 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import LayoutMenu from "../LayoutMenu/LayoutMenu.vue";
+// import LayoutMenu from "../LayoutMenu/LayoutMenu.vue";
+import HomeView from "../views/Home/HomeView.vue";
+import MeView from "../views/Me/MeView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "personal",
-    component: LayoutMenu,
+    name: "home",
+    component: HomeView,
+  },
+  {
+    path: "/me",
+    name: "me",
+    component: MeView,
   },
 ];
 

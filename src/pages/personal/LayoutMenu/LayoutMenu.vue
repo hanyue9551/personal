@@ -7,10 +7,10 @@
     :ellipsis="false"
     @select="handleSelect"
   >
-    <el-menu-item index="0">Han</el-menu-item>
+    <el-menu-item index="/han">Han</el-menu-item>
     <div class="flex-grow" />
-    <el-menu-item index="1">{{ $t("menu.home") }}</el-menu-item>
-    <el-menu-item index="2">{{ $t("menu.aboutme") }}</el-menu-item>
+    <el-menu-item index="/">{{ $t("menu.home") }}</el-menu-item>
+    <el-menu-item index="/me">{{ $t("menu.aboutme") }}</el-menu-item>
     <div ref="buttonRef" v-click-outside="onClickOutside" class="language">
       {{ $t("menu.language") }}
     </div>
@@ -31,10 +31,13 @@ import { ref, unref } from "vue";
 import { ClickOutside as vClickOutside } from "element-plus";
 import { useLangStore } from "../store/state";
 import { useI18n } from "vue-i18n";
+import { useRouter, useRoute } from "vue-router";
 
-const activeIndex = ref("1");
+const activeIndex = ref("/");
+const router = useRouter();
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
+  router.push(key);
 };
 
 const buttonRef = ref();
