@@ -1,16 +1,20 @@
 <template>
   <el-row>
-    <el-col :span="4">
-      <h5 class="mb-2">个人站后台管理</h5>
+    <el-col :span="!isCollapse ? 4 : 1">
       <el-menu
         default-active="2"
         class="el-menu-vertical"
         @open="handleOpen"
         @close="handleClose"
         @select="handleSelect"
+        :collapse="isCollapse"
       >
-        <el-menu-item index="/managementIndex">
-          <el-icon><icon-menu /></el-icon>
+        <h5 class="mb-2">
+          <el-icon size="20" color="red"><Monitor /></el-icon>
+          <span v-show="!isCollapse">个人站后台管理系统</span>
+        </h5>
+        <el-menu-item index="/management">
+          <el-icon><HomeFilled /></el-icon>
           <span>首页</span>
         </el-menu-item>
         <el-sub-menu index="2">
@@ -18,16 +22,40 @@
             <el-icon><icon-menu /></el-icon>
             <span>系统管理</span>
           </template>
-          <el-menu-item index="/user">用户管理</el-menu-item>
-          <el-menu-item index="/blog">博客管理</el-menu-item>
-          <el-menu-item index="/tag">标签管理</el-menu-item>
+          <el-menu-item index="/management/user">用户管理</el-menu-item>
+          <el-menu-item index="/management/blog">博客管理</el-menu-item>
+          <el-menu-item index="/management/tags">标签管理</el-menu-item>
         </el-sub-menu>
       </el-menu>
     </el-col>
-    <el-col :span="20"><router-view /></el-col>
+    <el-col :span="!isCollapse ? 20 : 23">
+      <div id="userContainerHeader">
+        <div>
+          <el-icon
+            v-if="!isCollapse"
+            :size="iconSize"
+            :color="iconColor"
+            @click="isCollapse = !isCollapse"
+            ><Fold
+          /></el-icon>
+          <el-icon
+            v-else
+            :size="iconSize"
+            :color="iconColor"
+            @click="isCollapse = !isCollapse"
+            ><Expand
+          /></el-icon>
+        </div>
+        <div>
+          <el-icon :size="iconSize" :color="iconColor"><Avatar /></el-icon>
+        </div>
+      </div>
+      <router-view />
+    </el-col>
   </el-row>
 </template>
 <script lang="ts" setup>
+import { ref } from "vue";
 import {
   Document,
   Menu as IconMenu,
@@ -36,6 +64,10 @@ import {
 } from "@element-plus/icons-vue";
 import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
+
+const iconSize = 20;
+const iconColor = "#999";
+let isCollapse = ref(false); // 默认打开
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
@@ -54,10 +86,22 @@ const handleSelect = (key: string, keyPath: string[]) => {
 .mb-2 {
   padding: 10px;
   font-size: 18px;
-  border-right: solid 1px var(--el-menu-border-color);
+  display: flex;
+  align-items: center;
+  span {
+    padding-left: 8px;
+  }
 }
 
 .el-menu-vertical {
   height: calc(100% - 45px);
+}
+
+#userContainerHeader {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
 }
 </style>

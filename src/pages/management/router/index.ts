@@ -12,23 +12,23 @@ const routes: Array<RouteRecordRaw> = [
     component: LayoutMenu,
     children: [
       {
-        path: "/managementIndex",
+        path: "",
         name: "managementIndex",
         component: ManagementIndex,
       },
       {
-        path: "/user",
+        path: "user",
         name: "user",
         component: UserManagement,
       },
       {
-        path: "/blog",
+        path: "blog",
         name: "blog",
         component: BlogManagement,
       },
       {
-        path: "/tag",
-        name: "tag",
+        path: "tags",
+        name: "tags",
         component: TagManagement,
       },
     ],

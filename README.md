@@ -1,6 +1,5 @@
 # personal
-vue3+ts+elementUI+PHP
-PHP后续创建项目上传
+vue3+ts+elementUI+pinia+express
 
 个人站页面 /
 后台管理 /management
