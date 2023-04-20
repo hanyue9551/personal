@@ -2,10 +2,10 @@
   <el-row>
     <el-col :span="!isCollapse ? 4 : 1">
       <el-menu
+        :unique-opened="true"
         default-active="2"
+        :default-openeds="[2]"
         class="el-menu-vertical"
-        @open="handleOpen"
-        @close="handleClose"
         @select="handleSelect"
         :collapse="isCollapse"
       >
@@ -62,22 +62,14 @@ import {
   Location,
   Setting,
 } from "@element-plus/icons-vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 const router = useRouter();
 
 const iconSize = 20;
 const iconColor = "#999";
 let isCollapse = ref(false); // 默认打开
 
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log("select", key);
+const handleSelect = (key: string) => {
   key.includes("/") ? router.push(key) : 0;
 };
 </script>
