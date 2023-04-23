@@ -1,5 +1,5 @@
 <template>
-  <router-view id="management"></router-view>
+  <router-view id="layout"></router-view>
 </template>
 
 <style lang="less">
@@ -11,7 +11,7 @@
   }
 }
 
-#management {
+#layout {
   position: absolute;
   top: 0;
   height: 100%;

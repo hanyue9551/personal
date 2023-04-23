@@ -41,11 +41,11 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // {
-  //   path: "/user",
-  //   name: "user",
-  //   component: UserManagement,
-  // },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: () => import("../views/NotFound/NotfoundView.vue"),
+  },
 ];
 
 const router = createRouter({
