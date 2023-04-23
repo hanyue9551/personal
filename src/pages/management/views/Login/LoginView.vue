@@ -29,6 +29,7 @@
 import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { FormInstance, FormRules } from "element-plus";
+import { request } from "@/api";
 
 const route = useRoute();
 const router = useRouter();
@@ -78,7 +79,19 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      router.push("/management");
+      request
+        .post("/login", {
+          username: encodeURIComponent(ruleForm.name),
+          password: encodeURIComponent(ruleForm.pwd),
+        })
+        .then((res) => {
+          if (res.code === 1) {
+            router.push("/management");
+          }
+        })
+        .catch((res) => {
+          console.log(res, "错误");
+        });
     } else {
       console.log("error submit!", fields);
     }

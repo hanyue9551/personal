@@ -15,4 +15,17 @@ module.exports = defineConfig({
       title: "个人站",
     },
   },
+  lintOnSave: false, //是否开启eslint
+  devServer: {
+    port: 8080,
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000", // express服务器的地址
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api": "",
+        },
+      },
+    },
+  },
 });
