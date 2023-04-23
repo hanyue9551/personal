@@ -7,6 +7,14 @@ import TagManagement from "../views/Tag/TagManagement.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
+    path: "/",
+    component: () => import("../views/Login/LoginView.vue"),
+  },
+  {
+    path: "/login",
+    component: () => import("../views/Login/LoginView.vue"),
+  },
+  {
     path: "/management",
     name: "management",
     component: LayoutMenu,

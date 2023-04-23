@@ -5,14 +5,20 @@ import MeView from "../views/Me/MeView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
-    name: "home",
-    component: HomeView,
-  },
-  {
-    path: "/me",
-    name: "me",
-    component: MeView,
+    path: "/personal",
+    name: "personal",
+    children: [
+      {
+        path: "/home",
+        name: "home",
+        component: HomeView,
+      },
+      {
+        path: "/me",
+        name: "me",
+        component: MeView,
+      },
+    ],
   },
 ];
 
