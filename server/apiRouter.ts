@@ -1,30 +1,91 @@
 import express from "express";
+import { jwtSign } from "./jwtToken.ts";
 const router = express.Router();
+import db from "./mysql.ts";
+import bcrypt from "bcrypt";
+
+router.use((req, res, next) => {
+  const time = new Date();
+  const year = time.getFullYear();
+  const month = time.getMonth() + 1;
+  const date = time.getDate();
+  const hours = time.getHours();
+  const minutes = time.getMinutes();
+  const seconds = time.getSeconds();
+  const createTime =
+    year +
+    "-" +
+    month +
+    "-" +
+    date +
+    " " +
+    hours +
+    ":" +
+    minutes +
+    ":" +
+    seconds;
+  req.createTime = createTime;
+  next();
+});
 
 router.post("/login", (req, res) => {
   const userinfo = req.body;
-  res.send({
-    code: 1,
-    message: "登录成功",
+  const hashPwd = bcrypt.hashSync(userinfo.password, 10);
+  const sqlSelect =
+    "select * from management_user where username = ? and password = ?";
+  db.query(sqlSelect, [userinfo.username, hashPwd], (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send({
+        code: 1,
+        message: "登录成功",
+        token: jwtSign({ username: userinfo.username }),
+      });
+    }
   });
+  // res.send({
+  //   code: 1,
+  //   message: "登录成功",
+  //   token: jwtSign(userinfo.username),
+  // });
 });
 
-router.get("/get", (req, res) => {
-  const query = req.query;
+router.post("/register", (req, res) => {
+  const info = req.body;
+  const hashPwd = bcrypt.hashSync(info.password, 10);
+  const createTime = req.createTime;
 
-  res.send({
-    status: 1, // 0 失败 1 成功
-    msg: "GET 请求成功",
-    data: query,
-  });
-});
-
-router.post("/post", (req, res) => {
-  const body = req.body;
-  res.send({
-    status: 1,
-    msg: "POST 请求成功",
-    data: body,
+  const sqlSelect = "select * from management_user where username = ?";
+  db.query(sqlSelect, [info.username], (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      if (result.length > 0) {
+        // 重复用户名
+        res.send({
+          code: 2,
+          message: "用户名重复",
+        });
+      } else {
+        const sqlInsert =
+          "insert into management_user(username, password, createTime) values (?, ?, ?)";
+        db.query(
+          sqlInsert,
+          [info.username, hashPwd, createTime],
+          (errInsert, result) => {
+            if (errInsert) {
+              res.send(errInsert);
+            } else {
+              res.send({
+                code: 1,
+                message: "注册成功",
+              });
+            }
+          }
+        );
+      }
+    }
   });
 });
 
