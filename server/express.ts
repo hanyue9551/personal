@@ -1,29 +1,28 @@
 import express from "express";
 
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
-const { expressjwt: expressJWT } = require("express-jwt");
 const apiRouter = require("./apiRouter.ts");
-const router = express.Router();
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
-
-// app.use((req, res, next) => {
-//   next();
-// });
-
-const secretKey = "tokenKey";
-app.use(
-  expressJWT({
-    secret: secretKey,
-    algorithms: ["HS256"],
-  }).unless({ path: [/^\/personal\//] })
-);
 
 app.use("/", apiRouter);
+
+app.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    return res.send({
+      status: 401,
+      message: "无效token",
+    });
+  }
+  console.log(err, req, res);
+  // res.send({
+  //   status: 500,
+  //   message: "未知错误",
+  // });
+});
 
 app.listen(3000, () => {
   console.log("3000 running");

@@ -15,6 +15,10 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Login/LoginView.vue"),
   },
   {
+    path: "/register",
+    component: () => import("../views/Login/RegisterView.vue"),
+  },
+  {
     path: "/management",
     name: "management",
     component: LayoutMenu,

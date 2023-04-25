@@ -13,7 +13,11 @@
         <el-input v-model="ruleForm.name" placeholder="请输入用户名" />
       </el-form-item>
       <el-form-item label="密码" prop="pwd">
-        <el-input v-model="ruleForm.pwd" placeholder="请输入密码" />
+        <el-input
+          v-model="ruleForm.pwd"
+          type="password"
+          placeholder="请输入密码"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit(ruleFormRef)">
@@ -28,8 +32,9 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { FormInstance, FormRules } from "element-plus";
+import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { request } from "@/api";
+import { Md5 } from "ts-md5";
 
 const route = useRoute();
 const router = useRouter();
@@ -81,8 +86,8 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     if (valid) {
       request
         .post("/login", {
-          username: encodeURIComponent(ruleForm.name),
-          password: encodeURIComponent(ruleForm.pwd),
+          username: ruleForm.name,
+          password: Md5.hashStr(ruleForm.pwd),
         })
         .then((res) => {
           if (res.code === 1) {
@@ -90,6 +95,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
           }
         })
         .catch((res) => {
+          ElMessage.error("密码或用户名错误");
           console.log(res, "错误");
         });
     } else {
@@ -99,7 +105,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 };
 
 const onRgesiter = () => {
-  console.log("注册");
+  router.push("/register");
 };
 </script>
 

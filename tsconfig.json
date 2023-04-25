@@ -41,4 +41,5 @@
     "esm": true,
     "experimentalSpecifierResolution": "node"
   },
+  "typeRoots" : ["./src/types", "./node_modules/@types"]
 }
