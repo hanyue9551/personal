@@ -32,9 +32,10 @@ router.post("/login", (req, res) => {
   const userinfo = req.body;
   const hashPwd = bcrypt.hashSync(userinfo.password, 10);
   const sqlSelect =
-    "select * from management_user where username = ? and password = ?";
+    "select * from management_user where username = ?";
   db.query(sqlSelect, [userinfo.username, hashPwd], (err, result) => {
-    if (err) {
+    console.log(err, result)
+    if (err || result.length === 0) {
       res.send(err);
     } else {
       res.send({
@@ -44,11 +45,6 @@ router.post("/login", (req, res) => {
       });
     }
   });
-  // res.send({
-  //   code: 1,
-  //   message: "登录成功",
-  //   token: jwtSign(userinfo.username),
-  // });
 });
 
 router.post("/register", (req, res) => {

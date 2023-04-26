@@ -31,12 +31,11 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { request } from "@/api";
 import { Md5 } from "ts-md5";
 
-const route = useRoute();
 const router = useRouter();
 
 const formSize = ref("default");

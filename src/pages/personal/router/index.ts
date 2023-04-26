@@ -1,30 +1,28 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-// import LayoutMenu from "../LayoutMenu/LayoutMenu.vue";
+import { createRouter, createWebHistory } from "vue-router";
+import LayoutMenu from "../LayoutMenu/LayoutMenu.vue";
 import HomeView from "../views/Home/HomeView.vue";
 import MeView from "../views/Me/MeView.vue";
-
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/personal",
-    name: "personal",
-    children: [
-      {
-        path: "/home",
-        name: "home",
-        component: HomeView,
-      },
-      {
-        path: "/me",
-        name: "me",
-        component: MeView,
-      },
-    ],
-  },
-];
-
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
+  history: createWebHistory(),
+  routes : [
+    {
+      path: "/personal",
+      name: "personal",
+      component: LayoutMenu,
+      children: [
+        {
+          path: "home",
+          name: "home",
+          component: HomeView,
+        },
+        {
+          path: "me",
+          name: "me",
+          component: MeView,
+        },
+      ],
+    },
+  ],
 });
 
 export default router;
